@@ -12,24 +12,29 @@ import {
     Stack,
     Image,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { authcontext } from '../Context/authcontext'
 
 export default function SplitScreen() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const toast = useToast()
     const navigate = useNavigate()
+    const{setauth}=useContext(authcontext)
 
 
     const handlelogin = () => {
         const user = { email, password }
         axios.post(`${process.env.REACT_APP_API_KEY}/users/login`, user)
             .then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.data.token) {
+                    setauth(response.data.user)
+                    localStorage.setItem("token", response.data.token)
+                    localStorage.setItem("user", response.data.user)
                     navigate("/dashboard")
                 }
                 return toast({
