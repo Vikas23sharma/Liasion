@@ -1,6 +1,7 @@
 const express = require("express")
 const { connection } = require("./db")
 const { userRouter } = require("./Routes/userRoutes")
+const cors = require("cors");
 const { Authmiddleware } = require("./Middleware/Authmiddleware")
 const { taskroute } = require("./Routes/taskRoutes")
 
