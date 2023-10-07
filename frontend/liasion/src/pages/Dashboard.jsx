@@ -1,13 +1,16 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SimpleCookiePreference from '../components/Card';
 import { Box, useToast } from '@chakra-ui/react';
 import SlideFadeEx from '../components/Transition';
 import MyCard from '../components/Card';
+import { authcontext } from '../Context/authcontext';
 
 const Dashboard = () => {
     const [tasks, setTasks] = useState([])
     const toast = useToast()
+    const user = localStorage.getItem("user")
+    const { auth } = useContext(authcontext)
     const authToken = localStorage.getItem("token");
     const headers = {
         Authorization: `Bearer ${authToken}`,
@@ -61,7 +64,8 @@ const Dashboard = () => {
     }
     return (
         <div>
-            This will be the dashboard of liasion task managing app!
+            {auth ? <Box>Hey, {auth}</Box> : <Box>Hey, {user}</Box>}
+            Start managing your tasks and boost your productivity
             <br />
             <br />
             <Box textAlign={"center"}>
