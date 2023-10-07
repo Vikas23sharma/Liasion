@@ -12,14 +12,27 @@ const Dashboard = () => {
         Authorization: `Bearer ${authToken}`,
     };
 
-    useEffect(() => {
+    const getData = () => {
         axios(`${process.env.REACT_APP_API_KEY}/tasks`, { headers })
             .then((res) => {
                 setTasks(res.data.data)
                 console.log(res.data.data)
             })
             .catch((err) => console.log(err))
+    }
+
+    useEffect(() => {
+        getData()
     }, [])
+
+    const handlestatus = (id) => {
+        axios.patch(`${process.env.REACT_APP_API_KEY}/tasks/updatestatus/${id}`)
+            .then((res) => {
+                getData()
+                console.log(res.data)
+            })
+            .catch((err) => console.log(err))
+    }
     return (
         <div>
             This will be the dashboard of liasion task managing app!
@@ -27,7 +40,7 @@ const Dashboard = () => {
             <br />
             <Box textAlign={"center"}>
                 {tasks.map(el => {
-                    return <SlideFadeEx key={el._id}><SimpleCookiePreference title={el.title} description={el.description} status={el.status ? "Completed" : "Pending"} /></SlideFadeEx>
+                    return <SlideFadeEx key={el._id}><SimpleCookiePreference title={el.title} description={el.description} id={el._id} handlestatus={() => handlestatus(el._id)} status={el.status ? "Completed" : "Pending"} /></SlideFadeEx>
                 })}
             </Box>
         </div>

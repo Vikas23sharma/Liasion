@@ -4,7 +4,8 @@ import React from 'react'
 import { Stack, Text, Button, Card, CardBody, Heading, CardFooter, useColorModeValue } from '@chakra-ui/react'
 import { FcLock } from 'react-icons/fc'
 
-export default function SimpleCookiePreference({ title, description, status }) {
+export default function SimpleCookiePreference({ id,title, description, status,handlestatus }) {
+
     return (
         <Stack p="4" boxShadow="lg" m="0" borderRadius="sm">
             <Stack direction="row" alignItems="center">
@@ -34,7 +35,7 @@ export default function SimpleCookiePreference({ title, description, status }) {
                     Status:{status}
                 </Heading>
             </Stack>
-            <Button w={{ base: "60%", md: "30%", lg: "37%" }} colorScheme="green">{status==="Completed" ? "Mark as pending" : "Mark as completed"}</Button>
+            <Button onClick={()=>handlestatus(id)} w={{ base: "60%", md: "30%", lg: "37%" }} colorScheme="green">{status==="Completed" ? "Mark as pending" : "Mark as completed"}</Button>
         </Stack>
     )
 }
