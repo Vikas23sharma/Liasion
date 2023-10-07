@@ -72,7 +72,7 @@ export default function WithAction() {
     )
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [status, setStatus] = useState(false)
+    const [status, setStatus] = useState("")
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayTwo />)
     let user = localStorage.getItem("user")
@@ -84,7 +84,7 @@ export default function WithAction() {
     const headers = {
         Authorization: `Bearer ${authToken}`,
     };
-    const { tasks, setTasks } = useContext(taskcontext)
+    const { setTasks } = useContext(taskcontext)
 
     // console.log(user)
 
@@ -111,6 +111,16 @@ export default function WithAction() {
 
     const handleAddtask = () => {
         const task = { title, description, status }
+        console.log((status))
+        if (title.length === 0 || description.length === 0 || status.length === 0) {
+            return toast({
+                title: "Please fill all the required fields",
+                position: 'top',
+                status: "warning",
+                isClosable: true,
+                duration: 9000
+            })
+        }
         axios.post(`${process.env.REACT_APP_API_KEY}/tasks/addtask`, task, { headers })
             .then((res) => {
                 // setTasks(res.data.data)
