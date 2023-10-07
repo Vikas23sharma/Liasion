@@ -28,7 +28,7 @@ taskroute.get("/", Authmiddleware, async (req, res) => {
 })
 
 //Get single task
-taskroute.get("/:id", Authmiddleware, async (req, res) => {
+taskroute.get("/:id", async (req, res) => {
     const { userid } = req.body
     const { id } = req.params
     try {
