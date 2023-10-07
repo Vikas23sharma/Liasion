@@ -5,9 +5,10 @@ import { Box, useToast } from '@chakra-ui/react';
 import SlideFadeEx from '../components/Transition';
 import MyCard from '../components/Card';
 import { authcontext } from '../Context/authcontext';
+import { taskcontext } from '../Context/taskcontext';
 
 const Dashboard = () => {
-    const [tasks, setTasks] = useState([])
+    const { tasks, setTasks } = useContext(taskcontext)
     const toast = useToast()
     const user = localStorage.getItem("user")
     const { auth } = useContext(authcontext)

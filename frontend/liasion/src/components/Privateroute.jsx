@@ -7,18 +7,19 @@ import { useToast } from '@chakra-ui/react'
 const Privateroute = ({ children }) => {
     // const { auth } = useContext(authcontext)
     let active=localStorage.getItem("token")
-    const navigate=useNavigate()
+    // console.log(active)
+    // const navigate=useNavigate()
     const toast=useToast()
 
     if (!active) {
-        navigate("/login")
+        // navigate("/login")
         // return toast({
         //     title: `Please Login !!`,
         //     status: "info",
         //     isClosable: true,
         //   })
+        return <Navigate to={"/login"} /> 
     }
-        // return <Navigate to={"/login"} /> }
 
     return children
 }

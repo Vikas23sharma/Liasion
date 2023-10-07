@@ -6,9 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
 import { ChakraProvider } from '@chakra-ui/react'
 import AuthcontextProvider from './Context/authcontext';
+import Taskcontextprovider from './Context/taskcontext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Taskcontextprovider>
   <AuthcontextProvider>
     <ChakraProvider>
       <BrowserRouter>
@@ -16,6 +18,7 @@ root.render(
       </BrowserRouter>
     </ChakraProvider>
   </AuthcontextProvider>
+  </Taskcontextprovider>
 
 
 

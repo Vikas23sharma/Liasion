@@ -17,11 +17,25 @@ import {
     Stack,
     Image,
     useToast,
+    ModalOverlay,
+    ModalFooter,
+    ModalContent,
+    Modal,
+    ModalCloseButton,
+    ModalHeader,
+    ModalBody,
+    Text,
+    FormControl,
+    FormLabel,
+    Input
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { authcontext } from '../Context/authcontext'
+import { Radio, RadioGroup } from '@chakra-ui/react'
+import axios from 'axios'
+import { taskcontext } from '../Context/taskcontext'
 
 // interface Props {
 //   children: React.ReactNode
@@ -48,31 +62,77 @@ const NavLink = (props) => {
 }
 
 export default function WithAction() {
+    const OverlayTwo = () => (
+        <ModalOverlay
+            bg='none'
+            backdropFilter='auto'
+            backdropInvert='80%'
+            backdropBlur='2px'
+        />
+    )
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
+    const [status, setStatus] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
-    let user
+    const [overlay, setOverlay] = useState(<OverlayTwo />)
+    let user = localStorage.getItem("user")
+    const token = localStorage.getItem("token")
     const { auth } = useContext(authcontext)
     const navigate = useNavigate()
     const toast = useToast()
+    const authToken = localStorage.getItem("token");
+    const headers = {
+        Authorization: `Bearer ${authToken}`,
+    };
+    const { tasks, setTasks } = useContext(taskcontext)
+
     // console.log(user)
 
-    useEffect(() => {
-        user = localStorage.getItem("user")
-    }, [user])
+    const getData = () => {
+        axios(`${process.env.REACT_APP_API_KEY}/tasks`, { headers })
+            .then((res) => {
+                setTasks(res.data.data)
+                console.log(res.data.data)
+            })
+            .catch((err) => console.log(err))
+    }
 
     const handlelogout = () => {
-        const token = localStorage.getItem("token")
-        if (!token) { return }
-        else {
-            localStorage.removeItem('token')
-            localStorage.removeItem('user')
-            navigate("/login")
-            return toast({
-                title: `You have been logged out !`,
-                status: "info",
-                isClosable: true,
-            })
-        }
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        window.location.reload()
+        return toast({
+            title: `You have been logged out !`,
+            status: "info",
+            isClosable: true,
+            duration: 9000
+        })
     }
+
+    const handleAddtask = () => {
+        const task = { title, description, status }
+        axios.post(`${process.env.REACT_APP_API_KEY}/tasks/addtask`, task, { headers })
+            .then((res) => {
+                // setTasks(res.data.data)
+                getData()
+                console.log(res.data)
+                return toast({
+                    title: res.data.message,
+                    position: 'top',
+                    status: "success",
+                    isClosable: true,
+                    duration: 9000
+                })
+            })
+            .catch((err) => console.log(err))
+        onClose()
+        setTitle("")
+        setStatus("")
+        setDescription("")
+
+    }
+
+
 
     return (
         <>
@@ -99,9 +159,49 @@ export default function WithAction() {
                             colorScheme={'teal'}
                             size={'sm'}
                             mr={4}
-                            leftIcon={<AddIcon />}>
+                            leftIcon={<AddIcon />}
+                            onClick={() => {
+                                if (!token) { return }
+                                setOverlay(<OverlayTwo />)
+                                onOpen()
+                            }}
+                        >
                             Add Task
                         </Button>
+                        <Modal isCentered isOpen={isOpen} onClose={onClose}>
+                            {overlay}
+                            <ModalContent>
+                                <ModalHeader>Add Task</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    <FormControl id='title' isRequired>
+                                        <FormLabel>Title</FormLabel>
+                                        <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                                    </FormControl>
+                                    <FormControl id='description' isRequired>
+                                        <FormLabel>Description</FormLabel>
+                                        <Input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                                    </FormControl>
+                                    <FormControl id='status' isRequired>
+                                        <FormLabel>Status</FormLabel>
+                                        {/* <Input type="text"/> */}
+                                        <RadioGroup defaultValue='2' >
+                                            <Stack spacing={5} direction='row' onChange={(e) => setStatus(e.target.value)}>
+                                                <Radio colorScheme={'red'} value={false}>
+                                                    Pending
+                                                </Radio>
+                                                <Radio colorScheme={'green'} value={true}>
+                                                    Completed
+                                                </Radio>
+                                            </Stack>
+                                        </RadioGroup>
+                                    </FormControl>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button onClick={handleAddtask}>Add</Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
                         <Menu>
                             <MenuButton
                                 as={Button}
@@ -126,7 +226,7 @@ export default function WithAction() {
                                 <Link to={"/register"}>Signup</Link>
                                 <br />
                                 <br />
-                                <Link onClick={handlelogout} >Logout</Link>
+                                {token ? <Link onClick={handlelogout} >Logout</Link> : ""}
                             </MenuList>
                         </Menu>
                     </Flex>
