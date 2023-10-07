@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { authcontext } from '../Context/authcontext'
 
 // interface Props {
@@ -49,20 +49,29 @@ const NavLink = (props) => {
 
 export default function WithAction() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const user = localStorage.getItem("user")
+    let user
     const { auth } = useContext(authcontext)
     const navigate = useNavigate()
-    const toast=useToast()
+    const toast = useToast()
     // console.log(user)
 
+    useEffect(() => {
+        user = localStorage.getItem("user")
+    }, [user])
+
     const handlelogout = () => {
-        localStorage.removeItem('token')
-        navigate("/login")
-        return toast({
-            title: `You have been logged out !`,
-            status: "info",
-            isClosable: true,
-          })
+        const token = localStorage.getItem("token")
+        if (!token) { return }
+        else {
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            navigate("/login")
+            return toast({
+                title: `You have been logged out !`,
+                status: "info",
+                isClosable: true,
+            })
+        }
     }
 
     return (
@@ -109,7 +118,7 @@ export default function WithAction() {
                             </MenuButton>
                             <MenuList>
 
-                                {auth ? <Box>Hello, {auth}</Box> : <Box>Hello, {user}</Box>}
+                                {auth ? <Box>Hello, {auth}</Box> : user ? <Box>Hello, {user}</Box> : ""}
                                 <MenuDivider />
                                 <Link to={"/login"}>Login</Link>
                                 <br />
