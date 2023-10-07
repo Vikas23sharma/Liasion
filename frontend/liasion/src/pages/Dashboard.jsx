@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import SimpleCookiePreference from '../components/Card';
 import { Box } from '@chakra-ui/react';
 import SlideFadeEx from '../components/Transition';
+import MyCard from '../components/Card';
 
 const Dashboard = () => {
     const [tasks, setTasks] = useState([])

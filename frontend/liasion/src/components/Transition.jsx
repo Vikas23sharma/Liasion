@@ -1,5 +1,5 @@
 import { Box, useDisclosure } from "@chakra-ui/react"
-import { Fade, ScaleFade, Slide, SlideFade, Collapse } from '@chakra-ui/react'
+import { Fade, ScaleFade, SlideFade } from '@chakra-ui/react'
 
 function SlideFadeEx({children}) {
     // const { isOpen, onToggle } = useDisclosure()
