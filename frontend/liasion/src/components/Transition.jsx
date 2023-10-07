@@ -10,10 +10,10 @@ function SlideFadeEx({children}) {
         {/* <Button onClick={onToggle}>Click Me</Button> */}
         <SlideFade in={isOpen} offsetY='40px'>
           <Box
-            p='40px'
+            p={{ base: "10px", md: "20px", lg: "40px" }}
             // color='white'
             mt='4'
-            w={"50%"}
+            w={{ base: "95%", md: "70%", lg: "50%" }}
             m={"auto"}
             // bg='teal.500'
             rounded='md'

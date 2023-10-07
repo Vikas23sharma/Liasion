@@ -4,7 +4,7 @@ import React from 'react'
 import { Stack, Text, Button, Card, CardBody, Heading, CardFooter, useColorModeValue } from '@chakra-ui/react'
 import { FcLock } from 'react-icons/fc'
 
-export default function SimpleCookiePreference({ title, description }) {
+export default function SimpleCookiePreference({ title, description, status }) {
     return (
         <Stack p="4" boxShadow="lg" m="0" borderRadius="sm">
             <Stack direction="row" alignItems="center">
@@ -15,20 +15,26 @@ export default function SimpleCookiePreference({ title, description }) {
                     fontFamily={'body'}>
                     {title}
                 </Heading>
-                <FcLock />
+                {/* <FcLock /> */}
             </Stack>
 
-            <Stack direction={{ base: 'column', md: 'row' }} justifyContent="space-between">
+            <Stack direction={{ base: 'column', md: 'row' }} m="0px" justifyContent="space-between">
                 <Text color={'gray.500'} fontSize={{ base: 'sm' }} textAlign={'left'} maxW={'4xl'}>
                     {description}
                 </Text>
                 <Stack direction={{ base: 'column', md: 'row' }}>
-                    <Button variant="outline" colorScheme="green">
+                    <Button w={{ base: "30%", md: "30%", lg: "50%" }} variant="outline" colorScheme="green">
                         Edit
                     </Button>
-                    <Button colorScheme="green">Delete</Button>
+                    <Button w={{ base: "30%", md: "50%", lg: "50%" }} colorScheme="green">Delete</Button>
                 </Stack>
             </Stack>
+            <Stack m="0px" direction="row" alignItems="center">
+                <Heading color={'gray.500'} fontSize={{ base: 'md' }} textAlign={'left'} maxW={'4xl'}>
+                    Status:{status}
+                </Heading>
+            </Stack>
+            <Button w={{ base: "60%", md: "30%", lg: "37%" }} colorScheme="green">{status==="Completed" ? "Mark as pending" : "Mark as completed"}</Button>
         </Stack>
     )
 }

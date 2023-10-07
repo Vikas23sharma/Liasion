@@ -27,7 +27,7 @@ const Dashboard = () => {
             <br />
             <Box textAlign={"center"}>
                 {tasks.map(el => {
-                    return <SlideFadeEx><SimpleCookiePreference key={el._id} title={el.title} description={el.description} /></SlideFadeEx>
+                    return <SlideFadeEx key={el._id}><SimpleCookiePreference title={el.title} description={el.description} status={el.status ? "Completed" : "Pending"} /></SlideFadeEx>
                 })}
             </Box>
         </div>
