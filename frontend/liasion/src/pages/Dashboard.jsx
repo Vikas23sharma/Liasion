@@ -1,7 +1,7 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import SimpleCookiePreference from '../components/Card';
-import { Box, useToast } from '@chakra-ui/react';
+import { Box, Text, useToast } from '@chakra-ui/react';
 import SlideFadeEx from '../components/Transition';
 import MyCard from '../components/Card';
 import { authcontext } from '../Context/authcontext';
@@ -64,9 +64,13 @@ const Dashboard = () => {
             .catch((err) => console.log(err))
     }
     return (
-        <div>
-            {auth ? <Box>Hey, {auth}</Box> : <Box>Hey, {user}</Box>}
-            Start managing your tasks and boost your productivity
+       
+         <Box>
+            {auth ? <Text as='i' fontSize='3xl'>Hey, {auth}</Text> : <Text as='i' fontSize='3xl'>Hey, {user}</Text>}
+            <br />
+            <Box className='typewriter'>
+            <Text as={"b"} fontSize={"xl"}>Start managing your tasks and boost your productivity.</Text>
+            </Box>
             <br />
             <br />
             <Box textAlign={"center"}>
@@ -75,7 +79,8 @@ const Dashboard = () => {
                         handledelete={() => handledelete(el._id)} status={el.status ? "Completed" : "Pending"} /></SlideFadeEx>
                 })}
             </Box>
-        </div>
+        </Box>
+      
     )
 }
 

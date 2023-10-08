@@ -15,7 +15,6 @@ import {
     Radio,
     useToast,
 } from '@chakra-ui/react'
-import { FcLock } from 'react-icons/fc'
 import axios from 'axios'
 import { taskcontext } from '../Context/taskcontext'
 
@@ -76,7 +75,6 @@ export default function SimpleCookiePreference({ id, title, description, status,
                     duration: 9000,
                     isClosable: true,
                 })
-                console.log(res.data.message)
             })
             .catch((err) => console.log(err))
         onClose()
