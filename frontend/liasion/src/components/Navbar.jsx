@@ -171,7 +171,15 @@ export default function WithAction() {
                             mr={4}
                             leftIcon={<AddIcon />}
                             onClick={() => {
-                                if (!token) { return }
+                                if (!token) {
+                                    return toast({
+                                        title: "please login first!",
+                                        position: 'top-right',
+                                        status: "Info",
+                                        isClosable: true,
+                                        duration: 9000
+                                    })
+                                }
                                 setOverlay(<OverlayTwo />)
                                 onOpen()
                             }}
