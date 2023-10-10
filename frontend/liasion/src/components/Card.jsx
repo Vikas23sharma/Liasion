@@ -61,9 +61,9 @@ export default function SimpleCookiePreference({ id, title, description, status,
             .catch((err) => console.log(err))
     }
     const handleEdittask = () => {
-        // console.log(edittitle,editdescription,editstatus)
+        
         let updatedtask = { title: edittitle, description: editdescription, status: editstatus }
-        // console.log(updatedtask)
+        
         axios.patch(`${process.env.REACT_APP_API_KEY}/tasks/update/${id}`, updatedtask, { headers })
             .then((res) => {
                 getDataafteredit()
