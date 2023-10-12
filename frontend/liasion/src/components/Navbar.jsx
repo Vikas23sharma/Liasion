@@ -37,9 +37,7 @@ import { Radio, RadioGroup } from '@chakra-ui/react'
 import axios from 'axios'
 import { taskcontext } from '../Context/taskcontext'
 
-// interface Props {
-//   children: React.ReactNode
-// }
+
 
 const Links = ['Dashboard']
 
@@ -86,7 +84,6 @@ export default function WithAction() {
     };
     const { setTasks } = useContext(taskcontext)
 
-    // console.log(user)
 
     const getData = () => {
         axios(`${process.env.REACT_APP_API_KEY}/tasks`, { headers })

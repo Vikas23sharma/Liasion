@@ -91,7 +91,6 @@ export default function SimpleCookiePreference({ id, title, description, status,
                     fontFamily={'body'}>
                     {title}
                 </Heading>
-                {/* <FcLock /> */}
             </Stack>
 
             <Stack direction={{ base: 'column', md: 'row' }} m="0px" justifyContent="space-between">
